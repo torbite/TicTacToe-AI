@@ -97,9 +97,9 @@ class bot():
         
         if b:
             
-            if not any(np.array_equal(board.state, ending) for ending in self.endings):
+            #if not any(np.array_equal(board.state, ending) for ending in self.endings):
                 
-                self.endings.append(copy.deepcopy(board.state))
+                #self.endings.append(copy.deepcopy(board.state))
                 
             waslast = True
             #print(a)
@@ -194,28 +194,32 @@ s = board()
 gameGoing = True
 boa2 = bot(2)
 boa1 = bot(1)
+playerNumber = int(input("Which number do you wish to play as? (1 or 2): "))
+print()
 while gameGoing:
     s.showBoard()
     print()
-    if s.turn == 1:
-        
-        s.makeMove(boa1.getBestMove(s))
-    else:
-        y = int(input(f"y? (turn = {s.turn}) ")) - 1
-        x = int(input(f"x? (turn = {s.turn}) ")) - 1
+    if s.turn == playerNumber:
+        y = int(input(f"Which layer do you want to play at? (turn = {s.turn}): ")) - 1
+        x = int(input(f"Which column do you want to play at? (turn = {s.turn}): ")) - 1
         
         print()
         s.makeMove((x,y))
-        #s.makeMove(boa2.getBestMove(s))
+        
+        
+    else:
+        if(s.turn == 1):
+            s.makeMove(boa1.getBestMove(s))
+        else:
+            s.makeMove(boa2.getBestMove(s))
     winner, hasEnded = s.checkIfItHasEnded()
     if hasEnded:
         print()
-        s.showBoard()
-        print(f"Player {winner} wins!")
-        gameGoing = False
+        if winner != 0:
+            print()
+            s.showBoard()
+            print(f"Player {winner} wins!")
+            gameGoing = False
+        else:
+            print("The game was a draw!")
 
-woa = []
-for i in range(len(boa1.endings)):
-    woa.append(str(boa1.endings[i]))
-with open('ending.json', 'w') as arq:
-    json.dump(woa, arq, indent = 6)
