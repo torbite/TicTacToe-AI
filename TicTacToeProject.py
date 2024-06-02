@@ -1,7 +1,5 @@
 import numpy as np
-import math
 import random, copy
-import json
 class board():
     state = np.array([[0,0,0],[0,0,0],[0,0,0]])
     turn = 1
